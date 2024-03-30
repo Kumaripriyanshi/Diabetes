@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 import plotly.figure_factory as ff
 from sklearn.metrics import accuracy_score
 from sklearn.ensemble import RandomForestClassifier
+from sklearn import svm
 from sklearn.model_selection import train_test_split
 import seaborn as sns
 
@@ -168,7 +169,8 @@ plt.title('0 - Healthy & 1 - Unhealthy')
 st.pyplot(fig_dpf)
 
 
-
+train_accuracy =accuracy_score(y_train, rf.predict(x_train))*100
+print("train accuracy ",train_accuracy)
 # OUTPUT
 st.subheader('Your Report: ')
 output=''
@@ -180,4 +182,19 @@ st.title(output)
 st.subheader('Accuracy: ')
 st.write(str(accuracy_score(y_test, rf.predict(x_test))*100)+'%')
 
+classifier = svm.SVC(kernel='linear')
+classifier.fit(x_train, y_train)
+# SVC(C=1.0, break_ties=False, cache_size=200, class_weight=None, coef0=0.0,
+#     decision_function_shape='ovr', degree=3, gamma='scale', kernel='linear',
+#     max_iter=-1, probability=False, random_state=None, shrinking=True,
+#     tol=0.001, verbose=False)
 
+# accuracy score on the training data
+X_train_prediction = classifier.predict(x_train)
+training_data_accuracy = accuracy_score(X_train_prediction, y_train)
+print('Accuracy score of the training data : ', training_data_accuracy)
+
+# accuracy score on the test data
+X_test_prediction = classifier.predict(x_test)
+test_data_accuracy = accuracy_score(X_test_prediction, y_test)
+print('Accuracy score of the test data : ', test_data_accuracy)
